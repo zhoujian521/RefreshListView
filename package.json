@@ -7,6 +7,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "prop-types": "^15.6.2",
     "react": "16.4.1",
     "react-native": "0.56.0"
   },
@@ -18,5 +19,10 @@
   },
   "jest": {
     "preset": "react-native"
-  }
+  },
+  "rnpm": {
+    "ios": {
+    "project": "ios/RefreshFlatList.xcodeproj"
+    }
+}
 }
