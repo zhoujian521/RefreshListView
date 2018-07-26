@@ -7,12 +7,13 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, } from 'react-native';
-import RefreshListView, { RefreshState } from './src/RefreshListView';
+import {Platform, StyleSheet, View, } from 'react-native';
+import RefreshListView, {RefreshState} from './src/RefreshListView';
+
 import Cell from './Cell'
 import testData from './data'
 
-export default class App extends React.Component {
+export default class App extends Component {
   constructor(props){
     super(props);
     this.state={
@@ -22,7 +23,11 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
-    this.onHeaderRefresh()
+    // this._onHeaderRefresh()
+    const dataList = this._getTestList(true);
+    this.setState({
+      dataList
+    });
   }
 
   _onHeaderRefresh = () => {
@@ -33,14 +38,16 @@ export default class App extends React.Component {
     // 模拟网络请求
     setTimeout(() => {
       // 模拟网络加载失败的情况
-      if (Math.random() < 0.3) {
-        this.setState({ refreshState: RefreshState.Failure })
+      const random = Math.random();
+      // random = 0.1;
+      if (random < 0.3) {
+        this.setState({ 
+          refreshState: RefreshState.Failure
+         })
         return
       }
-
       //获取测试数据
       const dataList = this._getTestList(true)
-
       this.setState({
         dataList: dataList,
         refreshState: dataList.length < 1 ? RefreshState.EmptyData : RefreshState.Idle,
@@ -48,22 +55,23 @@ export default class App extends React.Component {
     }, 2000)
   }
 
-  _onFooterRefresh = () => {
+  _onFooterRefresh = () => { 
     this.setState({ 
-      refreshState: RefreshState.FooterRefreshing 
+      refreshState: RefreshState.FooterRefreshing,
     })
-
     // 模拟网络请求
     setTimeout(() => {
       // 模拟网络加载失败的情况
-      if (Math.random() < 0.2) {
-        this.setState({ refreshState: RefreshState.Failure })
+      const random = Math.random();
+      // random = 0.1;
+      if (random < 0.2) {
+        this.setState({ 
+          refreshState: RefreshState.Failure 
+        })
         return
       }
-
       //获取测试数据
       const dataList = this._getTestList(false)
-
       this.setState({
         dataList: dataList,
         refreshState: dataList.length > 50 ? RefreshState.NoMoreData : RefreshState.Idle,
@@ -71,18 +79,19 @@ export default class App extends React.Component {
     }, 2000)
   }
 
-
-
   _getTestList(isReload){
-    const newList = testData.map((data) => {
+      const newList = testData.map((data, index) => {
       return {
+        index,
         imageUrl: data.squareimgurl,
         title: data.mname,
         subtitle: `[${data.range}]${data.title}`,
         price: data.price,
       }
     })
-    return isReload ? (Math.random() < 0.2 ? [] : newList) : [...this.state.dataList, ...newList]
+    const random = Math.random();
+    // random = 0.1;
+    return isReload ? (random < 0.2 ? [] : newList) : [...this.state.dataList, ...newList]
   }
   render() {
     const {dataList, refreshState} = this.state;
@@ -97,16 +106,16 @@ export default class App extends React.Component {
             onFooterRefresh={this._onFooterRefresh}
 
             // 可选
-            // footerRefreshingText='玩命加载中 >.<'
-            // footerFailureText='我擦嘞，居然失败了 =.=!'
-            // footerNoMoreDataText='-我是有底线的-'
-            // footerEmptyDataText='-好像什么东西都没有-'
+            footerRefreshingText='玩命加载中 >.<'
+            footerFailureText='我擦嘞，居然失败了 =.=!'
+            footerNoMoreDataText='-我是有底线的-'
+            footerEmptyDataText='-好像什么东西都没有-'
           />
       </View>
     );
   }
 
-  _renderItem=(info)=>(<Cell info={info.item} />)
+  _renderItem=(info)=>(<Cell key={info.key} info={info.item} />)
 
   _keyExtractor = (item, index) => {
     return index

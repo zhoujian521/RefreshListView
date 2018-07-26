@@ -16,17 +16,12 @@ const color = {
 }
 
 class Cell extends PureComponent {
-
     render() {
-        console.log('render cell')
         let {info} = this.props
-
         info.imageUrl = info.imageUrl.replace('w.h', '160.0')
-
         return (
             <TouchableOpacity style={styles.container} onPress={this.props.onPress}>
                 <Image source={{uri: info.imageUrl}} style={styles.icon} />
-
                 <View style={styles.rightContainer}>
                     <Text style={styles.h1}>{info.title}</Text>
                     <View>
@@ -35,7 +30,6 @@ class Cell extends PureComponent {
                     <View style={{flex: 1, justifyContent: 'flex-end'}}>
                         <Text style={[styles.h1, styles.price]}>{info.price}元</Text>
                     </View>
-
                 </View>
             </TouchableOpacity>
         )
@@ -54,6 +48,7 @@ const styles = StyleSheet.create({
         width: 80,
         height: 80,
         borderRadius: 5,
+        backgroundColor:'cyan'
     },
     rightContainer: {
         flex: 1,
