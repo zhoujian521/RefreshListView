@@ -76,17 +76,13 @@ export default class RefreshListView extends React.PureComponent {
 
 
     _onRefresh=()=>{
-        // console.log('========try======_onRefresh=============try=========');
         if (!this._shouldStartHeaderRefreshing()) return;
-        // console.log('========return======_onRefresh========return==============');
         const {onHeaderRefresh} = this.props;
         onHeaderRefresh && onHeaderRefresh(RefreshState.HeaderRefreshing);
     }
 
     _onEndReached=()=>{
-        // console.log('========try======_onEndReached=============try=========');
         if (!this._shouldStartFooterRefreshing()) return;
-        // console.log('========return======_onEndReached=============return=========');
         const {onFooterRefresh} = this.props;
         onFooterRefresh && onFooterRefresh(RefreshState.FooterRefreshing);
     }
@@ -108,8 +104,6 @@ export default class RefreshListView extends React.PureComponent {
     }
 
     render(){
-        console.log('=============render=======================');
-        // refreshState
         const { renderItem, listRef, ...rest } = this.props;
         const { refreshState } = this.state;
 
@@ -144,16 +138,11 @@ export default class RefreshListView extends React.PureComponent {
             footerEmptyDataComponent
         } = this.props;
 
-        console.log('======RefreshListView======_renderListFooter=======');
-        console.log(refreshState);
-
         let footer = null;
         switch (refreshState) {
             case RefreshState.Idle:
-                // console.log('===============RefreshState.Idle=====================');
                 return footer = (<View style={styles.footerContainer} />);
             case RefreshState.FooterRefreshing:
-                console.log('===============RefreshState.FooterRefreshing=====================');
                 footer = footerRefreshingComponent ? footerRefreshingComponent : (
                     <View style={styles.footerContainer} >
                     <ActivityIndicator size="small" color="#888888" />
@@ -161,14 +150,12 @@ export default class RefreshListView extends React.PureComponent {
                     </View>)
                 return footer;
             case RefreshState.NoMoreData:
-                // console.log('===============RefreshState.NoMoreData=====================');
                 footer = footerNoMoreDataComponent ? footerNoMoreDataComponent : (
                     <View style={styles.footerContainer} >
                       <Text style={styles.footerText}>{footerNoMoreDataText}</Text>
                     </View>)
                 return footer;
             case RefreshState.Failure:
-                // console.log('===============RefreshState.Failure=====================');
                 footer = (
                     <TouchableOpacity onPress={this._onPressFailure}>
                     {footerFailureComponent ? footerFailureComponent : (
@@ -179,7 +166,6 @@ export default class RefreshListView extends React.PureComponent {
                     </TouchableOpacity>)
                 return footer;
             case RefreshState.EmptyData:
-                // console.log('===============RefreshState.EmptyData=====================');
                 footer = (
                     <TouchableOpacity onPress={this._onPressEmptyData}>
                     {footerEmptyDataComponent ? footerEmptyDataComponent : (
@@ -193,7 +179,6 @@ export default class RefreshListView extends React.PureComponent {
             default:
                 break;
         }
-        // console.log('===============null=====================');
         return footer;
     }
     _onPressFailure = ()=>{

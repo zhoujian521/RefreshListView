@@ -23,7 +23,6 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    // this._onHeaderRefresh()
     const dataList = this._getTestList(true);
     this.setState({
       dataList
