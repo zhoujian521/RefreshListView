@@ -91,7 +91,7 @@ export default class App extends Component {
     })
     const random = Math.random();
     // random = 0.1;
-    return isReload ? (random < 0.2 ? [] : newList) : [...this.state.dataList, ...newList]
+    return isReload ? (random < 0.2 ? [] : newList) : [...this.state.dataList, ...newList];
   }
   render() {
     const {dataList, refreshState} = this.state;
